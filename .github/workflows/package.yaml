@@ -65,7 +65,7 @@ jobs:
           echo "::endgroup::"
 
           echo "::group::Install goss"
-          dpkg --install goss_${{ matrix.version }}_amd64.deb
+          sudo dpkg --install goss_${{ matrix.version }}_amd64.deb
           echo "::endgroup::"
 
           echo "::group::Run goss"
