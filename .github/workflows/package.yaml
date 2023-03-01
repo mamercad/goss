@@ -1,0 +1,22 @@
+name: package
+
+on:
+  push:
+    branches:
+      - package
+    paths:
+      - .github/workflows/package.yaml
+  workflow_dispatch:
+
+concurrency:
+  group: package
+  cancel-in-progress: false
+
+jobs:
+  package:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: fpm
+        run: |
+          gem install fpm
