@@ -47,3 +47,4 @@ jobs:
             --architecture amd64 \
             --version ${{ matrix.version }} \
             release/goss-linux-amd64=/usr/local/bin/goss
+          dpkg --contents gossl_${{ matrix.version }}_amd64.deb
