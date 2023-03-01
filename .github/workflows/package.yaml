@@ -28,4 +28,4 @@ jobs:
       - name: Build goss
         run: |
           make release/goss-linux-amd64
-          ls -lh release
+          sha256sum --check release/goss-linux-amd64.sha256
