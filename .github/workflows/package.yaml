@@ -22,24 +22,35 @@ jobs:
         version:
           - "0.3.21"
     steps:
-      - name: Checkout
+      - name: Checkout version
         uses: actions/checkout@v3
         with:
           ref: v${{ matrix.version }}
 
       - name: Install fpm
         run: |
+          echo "::group::Install fpm"
           sudo gem install fpm
+          echo "::endgroup::"
+
+          echo "::group::Show fpm version"
           fpm --version
+          echo "::endgroup::"
 
       - name: Build goss
         run: |
+          echo "::group::Build goss release"
           make release/goss-linux-amd64
+          echo "::endgroup::"
+
+          echo "::group::Verify goss checksum"
           pushd release
           sha256sum --check goss-linux-amd64.sha256
+          echo "::endgroup::"
 
       - name: Package goss
         run: |
+          echo "::group::Package goss deb"
           fpm \
             --input-type dir \
             --output-type deb \
@@ -47,4 +58,8 @@ jobs:
             --architecture amd64 \
             --version ${{ matrix.version }} \
             release/goss-linux-amd64=/usr/local/bin/goss
-          dpkg --contents gossl_${{ matrix.version }}_amd64.deb
+          echo "::endgroup::"
+
+          echo "::group::Show goss deb"
+          dpkg --contents goss_${{ matrix.version }}_amd64.deb
+          echo "::endgroup::"
