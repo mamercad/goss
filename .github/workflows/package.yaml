@@ -41,7 +41,7 @@ jobs:
       - name: Package goss
         run: |
           fpm \
-            --input-dir dir \
+            --input-type dir \
             --output-type deb \
             --name goss \
             --architecture amd64 \
