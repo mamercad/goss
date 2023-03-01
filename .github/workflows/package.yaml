@@ -47,6 +47,8 @@ jobs:
           pushd release
           sha256sum --check goss-linux-amd64.sha256
           echo "::endgroup::"
+        env:
+          TRAVIS_TAG: ${{ matrix.version }}
 
       - name: Package goss
         run: |
@@ -68,7 +70,6 @@ jobs:
           sudo dpkg --install goss_${{ matrix.version }}_amd64.deb
           echo "::endgroup::"
 
-          echo "::group::Run goss"
-          /usr/local/bin/goss --help
+          echo "::group::Run goss version"
           /usr/local/bin/goss --version
           echo "::endgroup::"
