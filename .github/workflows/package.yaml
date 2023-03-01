@@ -63,3 +63,12 @@ jobs:
           echo "::group::Show goss deb"
           dpkg --contents goss_${{ matrix.version }}_amd64.deb
           echo "::endgroup::"
+
+          echo "::group::Install goss"
+          dpkg --install goss_${{ matrix.version }}_amd64.deb
+          echo "::endgroup::"
+
+          echo "::group::Run goss"
+          /usr/local/bin/goss --help
+          /usr/local/bin/goss --version
+          echo "::endgroup::"
