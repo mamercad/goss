@@ -73,3 +73,12 @@ jobs:
           echo "::group::Run goss version"
           /usr/local/bin/goss --version
           echo "::endgroup::"
+
+      - name: Release goss
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "goss_${{ matrix.version }}_amd64.deb"
+          body: |
+            # v${{ matrix.version }} amd64 deb
+            Hello `goss_${{ matrix.version }}_amd64.deb` world
