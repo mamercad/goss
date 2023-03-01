@@ -16,9 +16,16 @@ jobs:
   package:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - "0.3.21"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: v${{ matrix.version }}
 
       - name: Install fpm
         run: |
@@ -28,4 +35,15 @@ jobs:
       - name: Build goss
         run: |
           make release/goss-linux-amd64
-          sha256sum --check release/goss-linux-amd64.sha256
+          pushd release
+          sha256sum --check goss-linux-amd64.sha256
+
+      - name: Package goss
+        run: |
+          fpm \
+            --input-dir dir \
+            --output-type deb \
+            --name goss \
+            --architecture amd64 \
+            --version ${{ matrix.version }} \
+            release/goss-linux-amd64=/usr/local/bin/goss
