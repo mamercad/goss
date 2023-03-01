@@ -17,7 +17,12 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
-      - name: fpm
+      - name: Install fpm
         run: |
           sudo gem install fpm
           fpm --version
+
+      - name: Build goss
+        run: |
+          make release/goss-linux-amd64
+          ls -lh release
